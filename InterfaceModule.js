@@ -10,7 +10,7 @@ define ("Subtitles", function(){
     "z-index:50; display: block;");
     this._div.setAttribute("style",
     "width: 50%; height: 25px; color: white; text-shadow: 0px 0px 3px black ; align-content: center; text-align: center;" 
-    + "position: absolute; bottom: 20px; left: 25%; font-size: 15px; z-index:50; display: block; word-wrap: break-word;");
+    + "position: absolute; bottom: 20px; left: 25%; font-size: 40px; z-index:50; display: block; word-wrap: break-word;");
 
     
     
