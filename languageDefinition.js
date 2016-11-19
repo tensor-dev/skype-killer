@@ -1,22 +1,13 @@
+define('LocaleDetectorModule', function() {
+	
 
-/*window.onload = function () {
-  var textline = new ya.speechkit.Textline('my_id', {
-        apikey: 'e849ef32-1ef3-4085-83cb-9e0f580689df',
-        onInputFinished: function(text) {
-          // Финальный текст.
-          console.log(text);
-        }
-      });
-}; */
+	LocaleDetector.onResult = '';
 
-//window.ya.speechkit.settings.apikey = 'e849ef32-1ef3-4085-83cb-9e0f580689df';
+	function LocaleDetector() {}
 
-
-
-var streamer = new ya.speechkit.SpeechRecognition();
-
-window.onload = function () {
-	var localeDetect = '';
+	LocaleDetector.prototype.detect = function() {
+		var streamer = new ya.speechkit.SpeechRecognition();
+		var localeDetect = this;
 	    streamer.start({
 		  apikey: 'e849ef32-1ef3-4085-83cb-9e0f580689df',
 		  initCallback: function () {
@@ -29,15 +20,15 @@ window.onload = function () {
 		  			var locale = '';
 				    var value = 0;
 				    $.each(biometry, function (j, bio) {
-				      console.log("Вероятность: " + bio.confidence;
 				        if(bio.confidence > value && bio.tag == 'language') {
 				    		value = bio.confidence;
 				    		locale = bio.class;
 				    	}
 				    });
-			    	localeDetect = locale;
-			    	console.log('localDetect: '  + localeDetect);
-				    console.log("locale: " + locale);
+				    if(localeDetect.onResult) {
+				    	localeDetect.onResult(locale);
+				    }
+				    streamer.stop();
 				    
 			  	}
 		  },
@@ -55,3 +46,6 @@ window.onload = function () {
 		 });
 		}
 
+
+	return LocaleDetector;
+});
