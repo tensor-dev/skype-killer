@@ -14,41 +14,28 @@ define('Recognizer', function() {
 
    Recognizer.prototype.start = function() {
       var self = this;
+      this.isStarted = true;
       this.recognition.start();
       this.recognition.onend = function() {
-         if (this.isStarted == false) {
-            this.start();
-            this.stop();
+         if (self.isStarted) {
+            self.recognition.start();
          }
-         else {
-            this.start();
-         }
-      }
+      };
       this.recognition.onresult = function(event) {
          if (self.onResult) {
             self.onResult({
                text: event.results[0][0].transcript,
-               locale: self.locale,
+               locale: self.recognition.lang,
                id: self.id++
             })
          }
       }
-   }
+   };
 
    Recognizer.prototype.stop = function() {
-      var self = this;
-      this.recognition.onresult = function(event) {
-         if (self.onResult) {
-            self.onResult({
-               text: event.results[0][0].transcript,
-               locale: self.locale,
-               id: self.id++
-            })
-         }
-      }
-      this.isStarted = true;
-      this.recognition.onend = function() {
-         this.stop();
+      if (this.isStarted) {
+         this.isStarted = false;
+         this.recognition.stop();
       }
    }
 
