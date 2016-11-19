@@ -12,29 +12,32 @@ define ("Subtitles", function(){
     "width: 50%; height: 25px; color: white; text-shadow: 0px 0px 3px black ; align-content: center; text-align: center;" 
     + "position: absolute; bottom: 20px; left: 25%; font-size: 15px; z-index:50; display: block; word-wrap: break-word;");
 
-    this._id = "subs" + Math.round(Math.random()*1000);
-    while(Interface.prototype._IDS[this._id]){
-        this._id = "subs" + Math.round(Math.random()*1000);       
-    }
     
-    Interface.prototype._IDS[this._id] = true;
-
-    this._subs.setAttribute("id",this._id);
+    
 
     this._subs.appendChild(this._substrate);
     this._subs.appendChild(this._div);
 }
 
-Interface.prototype._IDS = {};
+var myStorage = {};
 
 Interface.prototype.show = function (par, text, ms){
+    
     this._div.innerHTML = text;
     this._par = par;
     if (this._timerId)
         {
         clearTimeout(this._timerId);
         this._par.removeChild(document.getElementById(this._id));
+        } else {
+            this._id = "subs" + Math.round(Math.random()*1000);
+            while(myStorage[this._id]){
+                this._id = "subs" + Math.round(Math.random()*1000);       
+                }
+            myStorage[this._id] = true;
         }
+    this._subs.setAttribute("id",this._id);
+     
     var test = document.createElement("div");
     var test2 = document.createElement("div");
     test.setAttribute("id","test"); 
@@ -63,7 +66,8 @@ Interface.prototype.show = function (par, text, ms){
 
     this._timerId = setTimeout(function(){
         self._par.removeChild(document.getElementById(self._id));
+        myStorage[self._id] = undefined;
     }, ms);
 }
-    return Interface;
+    return new Interface;
 });
