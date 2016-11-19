@@ -67,6 +67,7 @@ Interface.prototype.show = function (par, text, ms){
     this._timerId = setTimeout(function(){
         self._par.removeChild(document.getElementById(self._id));
         myStorage[self._id] = undefined;
+        self._timerId = null;
     }, ms);
 }
     return new Interface;
