@@ -13,11 +13,11 @@ define ("Subtitles", function(){
         + "position: absolute; bottom: 20px; left: 25%; font-size: 15px; z-index:50; display: block; word-wrap: break-word;");
 
         this._id = "subs" + Math.round(Math.random()*1000);
-        while(Interface.prototype._IDS[this._id]){
+        while(idStorage[this._id]){
             this._id = "subs" + Math.round(Math.random()*1000);       
         }
     
-        Interface.prototype._IDS[this._id] = true;
+        idStorage[this._id] = true;
 
         this._subs.setAttribute("id",this._id);
 
@@ -25,7 +25,7 @@ define ("Subtitles", function(){
         this._subs.appendChild(this._div);
     }
 
-    Interface.prototype._IDS = {};
+    var idStorage = {};
 
     Interface.prototype.show = function (text, ms){
         this._div.innerHTML = text;
