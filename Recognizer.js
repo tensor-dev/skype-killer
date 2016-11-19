@@ -1,5 +1,9 @@
 define('Recognizer', function() {
 
+   function convertLocale(locale) {
+      return (locale + '').split('-')[0];
+   }
+
    function Recognizer(locale) {
       this.recognition = new webkitSpeechRecognition();
       if (locale) {
@@ -25,7 +29,7 @@ define('Recognizer', function() {
          if (self.onResult) {
             self.onResult({
                text: event.results[0][0].transcript,
-               locale: self.recognition.lang,
+               locale: convertLocale(self.recognition.lang),
                id: self.id++
             })
          }
