@@ -12,9 +12,6 @@ define ("Subtitles", function(){
     "width: 50%; height: 25px; color: white; text-shadow: 0px 0px 3px black ; align-content: center; text-align: center;" 
     + "position: absolute; bottom: 20px; left: 25%; font-size: 40px; z-index:50; display: block; word-wrap: break-word;");
 
-    
-    
-
     this._subs.appendChild(this._substrate);
     this._subs.appendChild(this._div);
 }
@@ -44,9 +41,9 @@ Interface.prototype.show = function (par, text, ms){
     test2.setAttribute("id","test2"); 
     var maxWidth = this._par.offsetWidth*0.8;  
     test.setAttribute("style",
-    "position: absolute; height: auto; max-width: " + maxWidth + "px; font-size: 15px; visibility: hidden;");
+    "position: absolute; height: auto; max-width: " + maxWidth + "px; font-size: 40px; visibility: hidden;");
     test2.setAttribute("style",
-    "height: auto; width: auto; font-size: 15px; word-wrap: break-word; visibility: hidden;"); //visibility: hidden;
+    "height: auto; width: auto; font-size: 40px; word-wrap: break-word; visibility: hidden;"); //visibility: hidden;
     test2.innerHTML = text;
     test.appendChild(test2);
     document.body.insertBefore(test,document.body.childNodes[0]);    
