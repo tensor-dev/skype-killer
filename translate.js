@@ -1,7 +1,7 @@
 define('Translator', function(){
      function Translator(locale){
        this.locale = locale;
-       this.onResult = {'id' : '', 'text' : ''};
+       this.onResult = null;
      };
      
      Translator.prototype.translate = function(recognitionResult){
@@ -13,10 +13,9 @@ define('Translator', function(){
 		 lang: recognitionResult.locale + '-' + this.locale
          },
 	     success: function(result) {
-           translatevariable.onResult.text = result.text;
-           translatevariable.onResult.id = recognitionResult.id;
-           console.log(translatevariable);
-	     }
+           if(translatevariable.onResult){
+             translatevariable.onResult({id : recognitionResult.id, text : result.text});
+	       }
 	   });
      }
 	 return Translator;
