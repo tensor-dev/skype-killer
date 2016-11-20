@@ -45,6 +45,9 @@ Interface.prototype.show = function show(par, text, ms){
             myStorage[this._id] = true;
         }
     }
+
+    if (!this._id)
+        this._id = "subs" + Math.round(Math.random()*1000);
     this._subs.setAttribute("id",this._id);
      
     var test = document.createElement("div");
@@ -82,5 +85,6 @@ Interface.prototype.show = function show(par, text, ms){
         };
     }.apply(this), ms);
 }
+
     return new Interface;
 });
