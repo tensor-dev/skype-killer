@@ -1,9 +1,14 @@
 define ("Subtitles", function(){
     function Interface(){
+   
+}
+
+var myStorage = {};
+
+Interface.prototype.show = function show(par, text, ms){
     this._subs = document.createElement("div");
     this._substrate = document.createElement("div");
     this._div = document.createElement("div");       
-    this._par = null;
 
     this._substrate.setAttribute("style",
     "width: 50%; height: 25px; position: absolute; left: 25%; bottom: 20px; background-color: black; opacity: 0.4; border-radius: 3px;" +
@@ -14,23 +19,26 @@ define ("Subtitles", function(){
 
     this._subs.appendChild(this._substrate);
     this._subs.appendChild(this._div);
-}
-
-var myStorage = {};
-
-Interface.prototype.show = function (par, text, ms){
-    
     this._div.innerHTML = text;
     this._par = par;
-    if (this._timerId)
+    var a = null;
+    if (a = this._par.querySelector("#" + this._id))
         {
-        clearTimeout(this._timerId);
-        this._par.removeChild(document.getElementById(this._id));
+        if (a.parentNode == this._par){
+            clearTimeout(this._timerId);
+            this._par.removeChild(document.getElementById(this._id));
+            } else {
+                this._id = "subs" + Math.round(Math.random()*1000);
+                while(myStorage[this._id]){
+                    this._id = "subs" + Math.round(Math.random()*1000);       
+                    }
+                myStorage[this._id] = true;
+            }
         } else {
             this._id = "subs" + Math.round(Math.random()*1000);
             while(myStorage[this._id]){
                 this._id = "subs" + Math.round(Math.random()*1000);       
-                }
+            }
             myStorage[this._id] = true;
         }
     this._subs.setAttribute("id",this._id);
@@ -59,13 +67,16 @@ Interface.prototype.show = function (par, text, ms){
     
         
     this._par.insertBefore(this._subs, this._par.children[0]);
-    var self = this;
 
-    this._timerId = setTimeout(function(){
-        self._par.removeChild(document.getElementById(self._id));
-        myStorage[self._id] = undefined;
-        self._timerId = null;
-    }, ms);
+    this._timerId = setTimeout(function (){
+        var self = {};
+        self._id = this._id;
+        self._par = this._par;
+        return function(){
+            myStorage[self._id] = null;
+            self._par.removeChild(document.getElementById(self._id));
+        };
+    }.apply(this), ms);
 }
     return new Interface;
 });
