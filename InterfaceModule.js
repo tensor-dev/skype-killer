@@ -22,18 +22,21 @@ Interface.prototype.show = function show(par, text, ms){
     this._div.innerHTML = text;
     this._par = par;
     var a = null;
-    if (a = this._par.querySelector("#" + this._id))
+    for (var id in myStorage)
+    {
+        if (a = this._par.querySelector("#" + id))
         {
-        if (a.parentNode == this._par){
-            clearTimeout(this._timerId);
-            this._par.removeChild(document.getElementById(this._id));
-            } else {
-                this._id = "subs" + Math.round(Math.random()*1000);
-                while(myStorage[this._id]){
-                    this._id = "subs" + Math.round(Math.random()*1000);       
+            if (a.parentNode == this._par){
+                    this._id = id;
+                    clearTimeout(myStorage[id]);
+                    this._par.removeChild(document.getElementById(id));
+                } else {
+                    this._id = "subs" + Math.round(Math.random()*1000);
+                    while(myStorage[this._id]){
+                        this._id = "subs" + Math.round(Math.random()*1000);       
                     }
-                myStorage[this._id] = true;
-            }
+                    myStorage[this._id] = true;
+                }
         } else {
             this._id = "subs" + Math.round(Math.random()*1000);
             while(myStorage[this._id]){
@@ -41,6 +44,7 @@ Interface.prototype.show = function show(par, text, ms){
             }
             myStorage[this._id] = true;
         }
+    }
     this._subs.setAttribute("id",this._id);
      
     var test = document.createElement("div");
@@ -68,7 +72,7 @@ Interface.prototype.show = function show(par, text, ms){
         
     this._par.insertBefore(this._subs, this._par.children[0]);
 
-    this._timerId = setTimeout(function (){
+    myStorage[this._id] = this._timerId = setTimeout(function (){
         var self = {};
         self._id = this._id;
         self._par = this._par;
